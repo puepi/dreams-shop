@@ -24,7 +24,7 @@ public class Product {
     private int Inventory;
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = )
     @JoinColumn(name = "category_id")
     private Category category;
 
