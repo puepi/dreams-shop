@@ -1,5 +1,8 @@
 package com.dailycodework.dreamshops.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -13,6 +16,7 @@ public class Product {
 
     private Category category;
 
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 
 }
