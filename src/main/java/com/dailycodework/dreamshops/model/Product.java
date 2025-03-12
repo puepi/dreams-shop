@@ -21,7 +21,7 @@ public class Product {
     private String name;
     private String brand;
     private BigDecimal price;
-    private int Inventory;
+    private int inventory;
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
