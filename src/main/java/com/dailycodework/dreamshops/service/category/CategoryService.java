@@ -1,5 +1,6 @@
 package com.dailycodework.dreamshops.service.category;
 
+import com.dailycodework.dreamshops.exceptions.AlreadyExistsException;
 import com.dailycodework.dreamshops.exceptions.ProductNotFoundException;
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Category;
@@ -33,7 +34,9 @@ public class CategoryService implements ICategoryService{
 
     @Override
     public Category addCategory(Category category) {
-        return null;
+        return Optional.of(category).filter(c->!categoryRepository.existsByName(c.getName()))
+                .map(categoryRepository::save)
+                .orElseThrow(()->new AlreadyExistsException(category.getName() + "already exists"));
     }
 
     @Override
