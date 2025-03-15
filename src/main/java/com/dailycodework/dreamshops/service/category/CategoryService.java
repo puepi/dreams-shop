@@ -7,6 +7,8 @@ import com.dailycodework.dreamshops.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService implements ICategoryService{
@@ -21,6 +23,11 @@ public class CategoryService implements ICategoryService{
     @Override
     public Category getCategoryByName(String categoryName) {
         return categoryRepository.findByName(categoryName);
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
     }
 
     @Override
