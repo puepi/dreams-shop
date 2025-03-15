@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +37,13 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public Category updateCategory(Category category) {
-        return null;
+    public Category updateCategory(Category category, Long id) {
+        return Optional.ofNullable(getCategoryById(id))
+                .map(oldCategory->{
+                    oldCategory.setName(category.getName());
+                    return categoryRepository.save(oldCategory);
+                })
+                .orElseThrow(()->new ResourceNotFoundException("Category not found"));
     }
 
     @Override
