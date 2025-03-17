@@ -33,7 +33,7 @@ public class ImageService implements IImageService{
     }
 
     @Override
-    public List<ImageDto> saveImage(List<MultipartFile> files, Long productId)
+    public List<ImageDto> saveImages(List<MultipartFile> files, Long productId)
     {
         Product product=productService.getProductById(productId);
         List<ImageDto> savedImageDto=new ArrayList<>();
@@ -46,8 +46,6 @@ public class ImageService implements IImageService{
                 image.setProduct(product);
 
                 String buildDownloadUrl="/api/v1/images/image/download/";
-
-                String downloadUrl="/api/v1/images/image/download/" + image.getId();
                 image.setDownloadUrl(buildDownloadUrl + image.getId());
                 Image savedImage=imageRepository.save(image);
                 savedImage.setDownloadUrl(buildDownloadUrl + savedImage.getId());
