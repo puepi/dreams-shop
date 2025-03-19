@@ -2,6 +2,7 @@ package com.dailycodework.dreamshops.controller;
 
 
 import com.dailycodework.dreamshops.dto.ImageDto;
+import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Image;
 import com.dailycodework.dreamshops.response.ApiResponse;
 import com.dailycodework.dreamshops.service.image.IImageService;
@@ -46,5 +47,21 @@ public class ImageController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @PutMapping("/image/{imageId}/update")
+    public ResponseEntity<ApiResponse> updateImage(@PathVariable Long imageId,@RequestBody MultipartFile file){
+        try {
+            Image image=imageService.getImageById(imageId);
+            if(image!=null){
+                imageService.updateImage(file,imageId);
+                return ResponseEntity.ok(new ApiResponse("Update success",null));
+            }
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(e.getMessage(),null));
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponse("Update failed",HttpStatus.INTERNAL_SERVER_ERROR));
     }
 }
