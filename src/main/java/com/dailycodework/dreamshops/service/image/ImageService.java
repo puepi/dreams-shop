@@ -48,8 +48,8 @@ public class ImageService implements IImageService{
                 String buildDownloadUrl="/api/v1/images/image/download/";
                 image.setDownloadUrl(buildDownloadUrl + image.getId());
                 Image savedImage=imageRepository.save(image);
-                savedImage.setDownloadUrl(buildDownloadUrl + savedImage.getId());
-                imageRepository.save(savedImage);
+//                savedImage.setDownloadUrl(buildDownloadUrl + savedImage.getId());
+//                imageRepository.save(savedImage);
 
                 ImageDto imageDto=new ImageDto();
                 imageDto.setImageId(savedImage.getId());
