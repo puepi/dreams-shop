@@ -54,4 +54,74 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<ApiResponse> deleteProductById(@PathVariable Long productId){
+        try{
+            productService.deleteProductById(productId);
+            return ResponseEntity.ok(new ApiResponse("Success: product deleted",null));
+        }catch(ResourceNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
+
+    @GetMapping("/brand-name")
+    public ResponseEntity<ApiResponse> getProductByBrandAndName(@RequestParam String brandName,@RequestParam String name){
+        try {
+            List<Product> products=productService.getProductsByBrandAndName(brandName,name);
+            return ResponseEntity.ok(new ApiResponse("Success",products));
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
+
+    @GetMapping("/category-brand")
+    public ResponseEntity<ApiResponse> getProductByCategoryAndBrand(@RequestParam String category,@RequestParam String brand){
+        try {
+            List<Product> products=productService.getProductsByCategoryAndBrand(category,brand);
+            return ResponseEntity.ok(new ApiResponse("Success",products));
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
+
+    @GetMapping("/name")
+    public ResponseEntity<ApiResponse> getProductByName(@RequestParam String name){
+        try {
+            List<Product> products=productService.getProductsByName(name);
+            return ResponseEntity.ok(new ApiResponse("Success",products));
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<ApiResponse> getProductByCategory(@RequestParam String category){
+        try{
+            List<Product> products=productService.getProductsByCategory(category);
+            return ResponseEntity.ok(new ApiResponse("Success:",products));
+        }catch(Exception e){
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
+
+    @GetMapping("/brand")
+    public ResponseEntity<ApiResponse> getProductsByBrand(@RequestParam String brand){
+        try{
+            List<Product> products=productService.getProductsByBrand(brand);
+            return ResponseEntity.ok(new ApiResponse("Success",products));
+        }catch(Exception e){
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
+
+    @GetMapping("/count/brand-name")
+    public ResponseEntity<ApiResponse> countProductsByBrandAndName(@RequestParam String brand,@RequestParam String name){
+        try {
+            Long count=productService.countProductsByBrandAndName(brand,name);
+            return ResponseEntity.ok(new ApiResponse("Product count",count));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
 }

@@ -114,4 +114,6 @@ import java.util.Optional;
     public Long countProductsByBrandAndName(String brand, String name) {
         return productRepository.countByBrandAndName(brand,name);
     }
+
+
 }
