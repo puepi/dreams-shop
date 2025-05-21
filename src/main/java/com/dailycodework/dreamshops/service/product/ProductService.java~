@@ -62,7 +62,6 @@ public class ProductService implements IProductService{
     public Product updateProduct(ProductUpdateRequest product, Long productId) {
         return productRepository.findById(productId).
                 map(existingProduct -> updateExistingProduct(existingProduct, product))
-                .map(productRepository::save)
                 .orElseThrow(()-> new ProductNotFoundException("Product not found!"));
     }
 

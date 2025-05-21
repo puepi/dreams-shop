@@ -2,6 +2,7 @@ package com.dailycodework.dreamshops.service.product;
 
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.request.AddProductRequest;
+import com.dailycodework.dreamshops.request.ProductUpdateRequest;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface IProductService {
 
     Product getProductById(Long id);
     void deleteProductById(Long id);
-    void updateProduct(Product product,Long productId);
+    Product updateProduct(ProductUpdateRequest product, Long productId);
 
     List<Product> getAllProducts();
     List<Product> getProductsByCategory(String category);
