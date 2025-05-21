@@ -1,6 +1,8 @@
 package com.dailycodework.dreamshops;
 
+import com.dailycodework.dreamshops.model.Category;
 import com.dailycodework.dreamshops.model.Image;
+import com.dailycodework.dreamshops.request.AddProductRequest;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
@@ -110,5 +112,12 @@ class DreamShopsApplicationTests {
 				.limit(3)
 				.collect(toList());
 		System.out.println("names = " + names);
+	}
+
+	@Test
+	public void testAddProduct(){
+		AddProductRequest request=new AddProductRequest(
+
+		);
 	}
 }
