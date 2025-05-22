@@ -49,11 +49,11 @@ public class ImageService implements IImageService{
 //                image.setDownloadUrl(buildDownloadUrl + image.getId());
                 Image savedImage=imageRepository.save(image);
                 savedImage.setDownloadUrl(buildDownloadUrl + savedImage.getId());
-//                imageRepository.save(savedImage);
+                imageRepository.save(savedImage);
 
                 ImageDto imageDto=new ImageDto();
-                imageDto.setImageId(savedImage.getId());
-                imageDto.setImageName(savedImage.getFileName());
+                imageDto.setId(savedImage.getId());
+                imageDto.setFileName(savedImage.getFileName());
                 imageDto.setDownloadUrl(savedImage.getDownloadUrl());
                 savedImageDto.add(imageDto);
             } catch (IOException | SQLException e) {

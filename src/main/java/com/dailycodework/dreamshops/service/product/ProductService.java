@@ -10,6 +10,7 @@ import com.dailycodework.dreamshops.request.AddProductRequest;
 import com.dailycodework.dreamshops.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ModelMap modelMap;
 
 
 
