@@ -23,14 +23,16 @@ public class ProductController {
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllProducts(){
         List<Product> products=productService.getAllProducts();
-        return ResponseEntity.ok(new ApiResponse("Success",products));
+        List<ProductDto> dto=productService.getConvertedProducts(products);
+        return ResponseEntity.ok(new ApiResponse("Success",dto));
     }
 
     @GetMapping("/{productId}")
     public ResponseEntity<ApiResponse> getProductById(@PathVariable Long productId){
         try{
             Product product=productService.getProductById(productId);
-            return ResponseEntity.ok(new ApiResponse("success",product));
+            ProductDto dto=productService.convertToDto(product);
+            return ResponseEntity.ok(new ApiResponse("success",dto));
         }catch(ResourceNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
