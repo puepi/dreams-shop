@@ -92,7 +92,7 @@ class DreamShopsApplicationTests {
 	public void whenOrElseWorks_thenCorrec(){
 		String nullName=null;
 		String name=Optional.ofNullable("Puepi").orElse("john");
-		assertEquals("john",name);
+		assertEquals("Puepi",name);
 	}
 
 	@Test
