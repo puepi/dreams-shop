@@ -13,10 +13,7 @@ import test.Color;
 import test.Dish;
 import test.Letter;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -116,8 +113,7 @@ class DreamShopsApplicationTests {
 
 	@Test
 	public void testAddProduct(){
-		AddProductRequest request=new AddProductRequest(
-
-		);
+		Set<Integer> set=new HashSet<>(Arrays.asList(1,8,9,10));
+		System.out.println("set = " + set);
 	}
 }

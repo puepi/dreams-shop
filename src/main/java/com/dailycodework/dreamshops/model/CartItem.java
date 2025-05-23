@@ -33,5 +33,4 @@ public class CartItem {
         totalPrice=unitPrice.multiply(new BigDecimal(qty));
     }
 
-
 }

@@ -33,4 +33,16 @@ public class Cart {
                 })
                 .reduce(BigDecimal.ZERO,BigDecimal::add);
     }
+
+    public void addItem(CartItem cartItem) {
+        cartItems.add(cartItem);
+        cartItem.setCart(this);
+        updateTotalAmount();
+    }
+
+    public void removeItem(CartItem cartItem){
+        cartItems.remove(cartItem);
+        cartItem.setCart(null);
+        updateTotalAmount();
+    }
 }
