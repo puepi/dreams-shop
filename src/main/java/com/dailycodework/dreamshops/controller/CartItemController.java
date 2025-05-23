@@ -18,7 +18,7 @@ public class CartItemController {
 
 
     @PostMapping("/add-item/")
-    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long cartId, @RequestParam Long productId, @RequestParam int qty){
+    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long cartId, @RequestParam Long productId, @RequestParam int qty){
         try {
             if(cartId==null){
                 cartId=cartService.initializeNewCart();
