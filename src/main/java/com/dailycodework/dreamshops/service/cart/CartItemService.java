@@ -45,7 +45,7 @@ public class CartItemService implements ICartItemService{
     }
 
     @Override
-    public void removeItemFromCart(Long cartId, Long productId) {
+    public void removeItemFromCart(Long cartId, Long productId) throws ResourceNotFoundException {
         Cart cart=cartService.getCart(cartId);
         Set<CartItem> items=cart.getCartItems();
         CartItem cartItem=getCartItem(cartId,productId);
@@ -54,7 +54,7 @@ public class CartItemService implements ICartItemService{
      }
 
     @Override
-    public void updateItemQty(Long cartId, Long productId, int qty) {
+    public void updateItemQty(Long cartId, Long productId, int qty) throws  ResourceNotFoundException{
         Cart cart=cartService.getCart(cartId);
 //        cart.getCartItems().stream().filter(item-> item.getProduct().getId().equals(productId))
 //                .findFirst()
