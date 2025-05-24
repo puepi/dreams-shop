@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -37,15 +38,19 @@ public class ImageController {
     }
 
     @GetMapping("/download/{imageId}")
-    public ResponseEntity<Resource> downloadImage(@PathVariable Long imageId){
+    public ResponseEntity<ByteArrayResource> downloadImage(@PathVariable Long imageId){
         Image image=imageService.getImageById(imageId);
         try {
-            ByteArrayResource resource=new ByteArrayResource(image.getImage().getBytes(1,(int)image.getImage().length()));
+//            ByteArrayResource resource=new ByteArrayResource(image.getImage().getBytes(1,(int)image.getImage().length()));
+            byte[] bytesArray=image.getImage().getBinaryStream().readAllBytes();
+            ByteArrayResource resource=new ByteArrayResource(bytesArray);
             return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
                     .header(HttpHeaders.CONTENT_DISPOSITION,"attachment: filename=\"" +image.getFileName() +"\"")
                     .body(resource);
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
+        } catch (ResourceNotFoundException e){
+            throw new ResourceNotFoundException("Image not found");
         }
     }
 

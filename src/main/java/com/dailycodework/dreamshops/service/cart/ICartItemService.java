@@ -8,4 +8,6 @@ public interface ICartItemService {
     public void updateItemQty(Long cartId,Long productId,int qty);
 
     CartItem getCartItem(Long cartId, Long productId);
+
+    CartItem getCartItem(Long itemId);
 }

@@ -1,6 +1,8 @@
 package com.dailycodework.dreamshops.controller;
 
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
+import com.dailycodework.dreamshops.model.CartItem;
+import com.dailycodework.dreamshops.repository.CartItemRepository;
 import com.dailycodework.dreamshops.response.ApiResponse;
 import com.dailycodework.dreamshops.service.cart.ICartItemService;
 import com.dailycodework.dreamshops.service.cart.ICartService;
@@ -17,7 +19,7 @@ public class CartItemController {
     private final ICartService cartService;
 
 
-    @PostMapping("/add-item/")
+    @PostMapping("/add-item")
     public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long cartId, @RequestParam Long productId, @RequestParam int qty){
         try {
             if(cartId==null){
@@ -49,5 +51,11 @@ public class CartItemController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
+    }
+
+    @GetMapping("/{itemId}")
+    public ResponseEntity<ApiResponse> getItemFromCart(@PathVariable Long itemId){
+        CartItem cartItem= cartItemService.getCartItem(itemId);
+        return ResponseEntity.ok(new ApiResponse("Item found",cartItem));
     }
 }

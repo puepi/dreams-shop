@@ -1,15 +1,22 @@
 package com.dailycodework.dreamshops.service.cart;
 
+import com.dailycodework.dreamshops.dto.CartItemDto;
+import com.dailycodework.dreamshops.dto.ImageDto;
+import com.dailycodework.dreamshops.dto.ProductDto;
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Cart;
 import com.dailycodework.dreamshops.model.CartItem;
+import com.dailycodework.dreamshops.model.Image;
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.repository.CartItemRepository;
 import com.dailycodework.dreamshops.repository.CartRepository;
 import com.dailycodework.dreamshops.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -23,6 +30,7 @@ public class CartItemService implements ICartItemService{
     private final CartRepository cartRepository;
     private final CartService cartService;
     private final ProductService productService;
+    private final ModelMapper modelMapper;
     @Override
     public void addItemToCart(Long cartId, Long productId, int qty) throws ResourceNotFoundException{
         Cart cart=cartService.getCart(cartId);
@@ -37,7 +45,9 @@ public class CartItemService implements ICartItemService{
             cartItem.setUnitPrice(product.getPrice());
             cartItem.setQty(qty);
         }
-        cartItem.setQty(cartItem.getQty() + qty);
+        {
+            cartItem.setQty(cartItem.getQty() + qty);
+        }
         cartItem.setTotalPrice();
         cart.addItem(cartItem);
         cartItemRepository.save(cartItem);
@@ -80,4 +90,18 @@ public class CartItemService implements ICartItemService{
                 .filter(item->item.getProduct().getId().equals(productId))
                 .findFirst().orElseThrow(()->new ResourceNotFoundException("Product not found"));
     }
+
+    @Override
+    public CartItem getCartItem(Long itemId) {
+        return cartItemRepository.findById(itemId).orElseThrow(()->new ResourceNotFoundException("Item not found"));
+    }
+
+//    public CartItemDto converToDto(CartItem cartItem){
+//        CartItemDto productDto=modelMapper.map(cartItem,CartItemDto.class);
+//        List<Image> images=imageRepository.findByProductId(product.getId());
+//        List<ImageDto> imagesDto=images.stream()
+//                .map(image -> modelMapper.map(image,ImageDto.class)).toList();
+//        productDto.setImages(imagesDto);
+//        return productDto;
+//    }
 }

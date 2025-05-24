@@ -3,10 +3,13 @@ package com.dailycodework.dreamshops;
 import com.dailycodework.dreamshops.model.Category;
 import com.dailycodework.dreamshops.model.Image;
 import com.dailycodework.dreamshops.request.AddProductRequest;
+import com.dailycodework.dreamshops.service.cart.CartItemService;
+import com.dailycodework.dreamshops.service.cart.CartService;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import test.Apple;
 import test.Color;
@@ -22,6 +25,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class DreamShopsApplicationTests {
+	
+	@Autowired
+	private CartService cartService;
+	@Autowired
+	private CartItemService cartItemService;
 
 	private List<Dish> menu = Arrays.asList(
 			new Dish("pork", false, 800, Dish.Type.MEAT),
@@ -115,5 +123,18 @@ class DreamShopsApplicationTests {
 	public void testAddProduct(){
 		Set<Integer> set=new HashSet<>(Arrays.asList(1,8,9,10));
 		System.out.println("set = " + set);
+	}
+	
+	
+//	@Test
+//	public void testInitializeCart(){
+//		Long id=cartService.initializeNewCart();
+//		System.out.println("id = " + id);
+//	}
+
+	@Test
+	public void testAddItemToCart(){
+//		cartItemService.addItemToCart(1L,3L,3);
+
 	}
 }
