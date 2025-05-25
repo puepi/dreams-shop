@@ -118,6 +118,8 @@ public class ProductController {
         try{
             List<Product> products=productService.getProductsByBrand(brand);
             List<ProductDto> dto=productService.getConvertedProducts(products);
+            if(dto==null)
+                throw new ResourceNotFoundException("No product found");
             return ResponseEntity.ok(new ApiResponse("Success",dto));
         }catch(Exception e){
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));

@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,11 +32,18 @@ public class CartItemService implements ICartItemService{
     private final CartService cartService;
     private final ProductService productService;
     private final ModelMapper modelMapper;
+
     @Override
     public void addItemToCart(Long cartId, Long productId, int qty) throws ResourceNotFoundException{
         Cart cart=cartService.getCart(cartId);
         Product product=productService.getProductById(productId);
-        CartItem cartItem=cart.getCartItems()
+//        Set<CartItem> cartItems=cart.getCartItems();
+        Set<CartItem> items=cart.getCartItems();
+        if(items==null){
+            items=new HashSet<>();
+            cart.setCartItems(items);
+        }
+        CartItem cartItem=items
                 .stream()
                 .filter(item->item.getProduct().getId().equals(productId))
                 .findFirst().orElse(new CartItem());
@@ -44,8 +52,7 @@ public class CartItemService implements ICartItemService{
             cartItem.setCart(cart);
             cartItem.setUnitPrice(product.getPrice());
             cartItem.setQty(qty);
-        }
-        {
+        }else{
             cartItem.setQty(cartItem.getQty() + qty);
         }
         cartItem.setTotalPrice();
