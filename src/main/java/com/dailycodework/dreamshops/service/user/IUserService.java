@@ -1,4 +1,12 @@
 package com.dailycodework.dreamshops.service.user;
 
+import com.dailycodework.dreamshops.model.User;
+import com.dailycodework.dreamshops.request.CreateRequestUser;
+import com.dailycodework.dreamshops.request.UpdateRequestUser;
+
 public interface IUserService {
+    User getUserById(Long userId);
+    User createUser(CreateRequestUser user);
+    User updateUser(UpdateRequestUser user, Long userId);
+    void deleteUser(Long userId);
 }
