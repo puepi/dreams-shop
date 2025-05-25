@@ -25,12 +25,13 @@ public class CartService implements ICartService{
         return cart;
     }
 
+    @Transactional
     @Override
     public void clearCart(Long id) throws ResourceNotFoundException {
         Cart cart=getCart(id);
         cartItemRepository.deleteAllByCartId(id);
         cart.getCartItems().clear();
-//        cartRepository.deleteById(id);
+        cartRepository.deleteById(id);
     }
 
     @Override
