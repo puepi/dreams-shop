@@ -19,7 +19,7 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
     }
 
     private void createDefaultUserIfNotExistst() {
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i <=5; i++) {
             String defaultEmail="user" + i + "@gmail.com";
             if(userRepository.existsByEmail(defaultEmail))
                 continue;

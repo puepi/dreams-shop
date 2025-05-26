@@ -2,7 +2,9 @@ package com.dailycodework.dreamshops.controller;
 
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.CartItem;
+import com.dailycodework.dreamshops.model.User;
 import com.dailycodework.dreamshops.repository.CartItemRepository;
+import com.dailycodework.dreamshops.repository.CartRepository;
 import com.dailycodework.dreamshops.response.ApiResponse;
 import com.dailycodework.dreamshops.service.cart.ICartItemService;
 import com.dailycodework.dreamshops.service.cart.ICartService;
@@ -20,11 +22,10 @@ public class CartItemController {
 
 
     @PostMapping("/add-item")
-    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long cartId, @RequestParam Long productId, @RequestParam int qty){
+    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long productId, @RequestParam int qty){
         try {
-            if(cartId==null){
-                cartId=cartService.initializeNewCart();
-            }
+            User user=cartRepository
+            cartId=cartService.initializeNewCart();
             cartItemService.addItemToCart(cartId,productId,qty);
             return ResponseEntity.ok(new ApiResponse("Item added succes",null));
         } catch (ResourceNotFoundException e) {
