@@ -1,5 +1,6 @@
 package com.dailycodework.dreamshops.repository;
 
+import com.dailycodework.dreamshops.dto.OrderDto;
 import com.dailycodework.dreamshops.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 

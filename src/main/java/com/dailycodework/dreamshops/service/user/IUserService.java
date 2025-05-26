@@ -1,5 +1,6 @@
 package com.dailycodework.dreamshops.service.user;
 
+import com.dailycodework.dreamshops.dto.UserDto;
 import com.dailycodework.dreamshops.model.User;
 import com.dailycodework.dreamshops.request.CreateRequestUser;
 import com.dailycodework.dreamshops.request.UpdateRequestUser;
@@ -9,4 +10,6 @@ public interface IUserService {
     User createUser(CreateRequestUser user);
     User updateUser(UpdateRequestUser user, Long userId);
     void deleteUser(Long userId);
+    User getUserByEmail(String email);
+    UserDto convertToDto(User user);
 }

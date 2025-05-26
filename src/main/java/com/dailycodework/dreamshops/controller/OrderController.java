@@ -48,7 +48,7 @@ public class OrderController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<ApiResponse> getOrdersByUserId(@PathVariable Long userId){
         try{
-            List<Order> order=orderService.getUserOrders(userId);
+            List<OrderDto> order=orderService.getUserOrders(userId);
             return ResponseEntity.ok(new ApiResponse("Orders found",order));
         }catch(ResourceNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));

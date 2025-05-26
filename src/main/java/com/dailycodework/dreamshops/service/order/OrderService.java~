@@ -86,9 +86,9 @@ public class OrderService implements IOrderService{
     }
 
      @Override
-     public List<OrderDto> getUserOrders(Long userId) {
-         return orderRepository.findAllByUserId(userId)
-                 .stream().map(this::convertToDto).toList();
+     public List<OrderDto> getUserOrders(Long userId){
+         return orderRepository.findAllByUserId(userId).stream()
+                 .map(this::convertToDto).toList();
     }
 
     private OrderDto convertToDto(Order order){
