@@ -3,10 +3,9 @@ package com.dailycodework.dreamshops.controller;
 import com.dailycodework.dreamshops.dto.OrderDto;
 import com.dailycodework.dreamshops.exceptions.AlreadyExistsException;
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
-import com.dailycodework.dreamshops.model.Order;
+import com.dailycodework.dreamshops.model.Orders;
 import com.dailycodework.dreamshops.response.ApiResponse;
 import com.dailycodework.dreamshops.service.order.IOrderService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<ApiResponse> createOrder(Long userId){
         try {
-            Order order=orderService.placeOrder(userId);
+            Orders order=orderService.placeOrder(userId);
             return ResponseEntity.ok(new ApiResponse("Order Success",order));
         } catch (ResourceNotFoundException | AlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));

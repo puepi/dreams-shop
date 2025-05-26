@@ -1,9 +1,5 @@
 package com.dailycodework.dreamshops.dto;
 
-import com.dailycodework.dreamshops.model.Order;
-import com.dailycodework.dreamshops.model.Product;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 import java.math.BigDecimal;

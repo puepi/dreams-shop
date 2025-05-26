@@ -3,7 +3,7 @@ package com.dailycodework.dreamshops.service.order;
 import com.dailycodework.dreamshops.dto.OrderDto;
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Cart;
-import com.dailycodework.dreamshops.model.Order;
+import com.dailycodework.dreamshops.model.Orders;
 import com.dailycodework.dreamshops.model.OrderItem;
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.repository.OrderRepository;
@@ -14,9 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,20 +29,20 @@ public class OrderService implements IOrderService{
     private final ModelMapper modelMapper;
 
     @Override
-    public Order placeOrder(Long userId) {
+    public Orders placeOrder(Long userId) {
         Cart cart=cartService.getCartByUserId(userId);
-        Order order=createOrder(cart);
+        Orders order=createOrder(cart);
         Set<OrderItem> orderItemList=createOrderItems(order,cart);
         order.setOrderItems(orderItemList);
         order.setTotalAmount(calculateTotalAmount(orderItemList));
-        Order savedOrder=orderRepository.save(order);
+        Orders savedOrder=orderRepository.save(order);
         cartService.clearCart(cart.getId());
         return savedOrder;
     }
 
     @Override
     public OrderDto getOrder(Long orderId) {
-        Order order= orderRepository.findById(orderId)
+        Orders order= orderRepository.findById(orderId)
                 .orElseThrow(()->new ResourceNotFoundException("Order not found"));
         return convertToDto(order);
     }
@@ -56,15 +55,15 @@ public class OrderService implements IOrderService{
                 .reduce(BigDecimal.ZERO,BigDecimal::add);
     }
 
-    private Order createOrder(Cart cart){
-        Order order=new Order();
+    private Orders createOrder(Cart cart){
+        Orders order=new Orders();
         order.setUser(cart.getUser());
-        order.setOrderDate(LocalDate.now());
+        order.setOrderDate(LocalDateTime.now());
         return orderRepository.save(order);
     }
 
 
-    private Set<OrderItem> createOrderItems(Order order, Cart cart){
+    private Set<OrderItem> createOrderItems(Orders order, Cart cart){
 //        Cart cart=cartService.getCart(cartId);
 //        Order order=getOrder(orderId);
 //        order.setOrderItems(cart.getCartItems().stream()
@@ -91,7 +90,7 @@ public class OrderService implements IOrderService{
                  .stream().map(this::convertToDto).toList();
     }
 
-    private OrderDto convertToDto(Order order){
+    private OrderDto convertToDto(Orders order){
         return modelMapper.map(order,OrderDto.class);
     }
 
