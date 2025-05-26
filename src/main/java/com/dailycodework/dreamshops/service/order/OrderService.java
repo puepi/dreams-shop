@@ -85,7 +85,7 @@ public class OrderService implements IOrderService{
     }
 
      @Override
-     public List<OrderDto> getUserOrders(Long userId) {
+     public List<OrderDto> getUserOrders(Long userId) throws ResourceNotFoundException{
          return orderRepository.findAllByUserId(userId)
                  .stream().map(this::convertToDto).toList();
     }
