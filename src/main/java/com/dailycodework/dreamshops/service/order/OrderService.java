@@ -1,5 +1,6 @@
 package com.dailycodework.dreamshops.service.order;
 
+import com.dailycodework.dreamshops.dto.OrderDto;
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Cart;
 import com.dailycodework.dreamshops.model.Order;
@@ -9,11 +10,13 @@ import com.dailycodework.dreamshops.repository.OrderRepository;
 import com.dailycodework.dreamshops.repository.ProductRepository;
 import com.dailycodework.dreamshops.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,7 @@ public class OrderService implements IOrderService{
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final CartService cartService;
+    private final ModelMapper modelMapper;
 
     @Override
     public Order placeOrder(Long userId) {
@@ -38,9 +42,10 @@ public class OrderService implements IOrderService{
     }
 
     @Override
-    public Order getOrder(Long orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow(()->new ResourceNotFoundException("Order not found")   );
+    public OrderDto getOrder(Long orderId) {
+        Order order= orderRepository.findById(orderId)
+                .orElseThrow(()->new ResourceNotFoundException("Order not found"));
+        return convertToDto(order);
     }
 
 
@@ -81,7 +86,12 @@ public class OrderService implements IOrderService{
     }
 
      @Override
-     public List<Order> getUserOrders(Long userId){
-        return orderRepository.findAllByUserId(userId);
+     public List<Order> getUserOrders(Long userId) throws ResourceNotFoundException{
+         return orderRepository.findAllByUserId(userId);
     }
+
+    private OrderDto convertToDto(Order order){
+        return modelMapper.map(order,OrderDto.class);
+    }
+
 }
