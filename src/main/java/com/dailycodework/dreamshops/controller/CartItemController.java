@@ -1,6 +1,7 @@
 package com.dailycodework.dreamshops.controller;
 
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
+import com.dailycodework.dreamshops.model.Cart;
 import com.dailycodework.dreamshops.model.CartItem;
 import com.dailycodework.dreamshops.model.User;
 import com.dailycodework.dreamshops.repository.CartItemRepository;
@@ -8,6 +9,7 @@ import com.dailycodework.dreamshops.repository.CartRepository;
 import com.dailycodework.dreamshops.response.ApiResponse;
 import com.dailycodework.dreamshops.service.cart.ICartItemService;
 import com.dailycodework.dreamshops.service.cart.ICartService;
+import com.dailycodework.dreamshops.service.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +21,14 @@ import org.springframework.web.bind.annotation.*;
 public class CartItemController {
     private final ICartItemService cartItemService;
     private final ICartService cartService;
+    private final IUserService userService;
 
 
     @PostMapping("/add-item")
     public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long productId, @RequestParam int qty){
         try {
-            User user=cartRepository
-            cartId=cartService.initializeNewCart();
+            User user=userService.getUserById(1L);
+            Cart cart =cartService.initializeNewCart(user);
             cartItemService.addItemToCart(cartId,productId,qty);
             return ResponseEntity.ok(new ApiResponse("Item added succes",null));
         } catch (ResourceNotFoundException e) {
