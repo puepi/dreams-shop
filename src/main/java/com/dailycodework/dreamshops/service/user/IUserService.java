@@ -4,6 +4,7 @@ import com.dailycodework.dreamshops.dto.UserDto;
 import com.dailycodework.dreamshops.model.User;
 import com.dailycodework.dreamshops.request.CreateRequestUser;
 import com.dailycodework.dreamshops.request.UpdateRequestUser;
+import java.util.List;
 
 public interface IUserService {
     User getUserById(Long userId);
@@ -12,4 +13,6 @@ public interface IUserService {
     void deleteUser(Long userId);
     User getUserByEmail(String email);
     UserDto convertToDto(User user);
+
+    List<User> getAllUsers();
 }

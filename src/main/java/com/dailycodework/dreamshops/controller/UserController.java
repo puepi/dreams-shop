@@ -87,4 +87,9 @@ public class UserController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse> getAllUsers(){
+        return ResponseEntity.ok(new ApiResponse("Succes",userService.getAllUsers()));
+    }
 }

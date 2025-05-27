@@ -29,7 +29,7 @@ public class CartItemController {
         try {
             User user=userService.getUserById(1L);
             Cart cart =cartService.initializeNewCart(user);
-            cartItemService.addItemToCart(cartId,productId,qty);
+            cartItemService.addItemToCart(cart.getId(),productId,qty);
             return ResponseEntity.ok(new ApiResponse("Item added succes",null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));

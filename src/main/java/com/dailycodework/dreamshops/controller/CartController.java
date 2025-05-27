@@ -51,4 +51,14 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ApiResponse> getCartByUserId(@PathVariable Long userId){
+        try {
+            Cart cart=cartService.getCartByUserId(userId);
+            return ResponseEntity.ok(new ApiResponse("Success",cart));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
 }

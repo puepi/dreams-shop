@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -66,5 +67,10 @@ public class UserService implements IUserService{
     @Override
     public UserDto convertToDto(User user){
         return modelMapper.map(user,UserDto.class);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return null;
     }
 }
