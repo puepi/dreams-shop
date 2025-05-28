@@ -6,12 +6,16 @@ import com.dailycodework.dreamshops.model.Cart;
 import com.dailycodework.dreamshops.model.Orders;
 import com.dailycodework.dreamshops.model.OrderItem;
 import com.dailycodework.dreamshops.model.Product;
+import com.dailycodework.dreamshops.repository.OrderItemRepository;
 import com.dailycodework.dreamshops.repository.OrderRepository;
 import com.dailycodework.dreamshops.repository.ProductRepository;
 import com.dailycodework.dreamshops.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,6 +31,8 @@ public class OrderService implements IOrderService{
     private final ProductRepository productRepository;
     private final CartService cartService;
     private final ModelMapper modelMapper;
+    private final OrderItemRepository orderItemRepository;
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     @Override
     public Orders placeOrder(Long userId) {
@@ -36,6 +42,7 @@ public class OrderService implements IOrderService{
         order.setOrderItems(orderItemList);
         order.setTotalAmount(calculateTotalAmount(orderItemList));
         Orders savedOrder=orderRepository.save(order);
+        logger.debug("savedOrder = " + savedOrder);
         cartService.clearCart(cart.getId());
         return savedOrder;
     }
@@ -63,6 +70,7 @@ public class OrderService implements IOrderService{
     }
 
 
+    @Transactional
     private Set<OrderItem> createOrderItems(Orders order, Cart cart){
 //        Cart cart=cartService.getCart(cartId);
 //        Order order=getOrder(orderId);
@@ -75,12 +83,14 @@ public class OrderService implements IOrderService{
                     Product product=cartItem.getProduct();
                     product.setInventory(product.getInventory() - cartItem.getQty());
                     productRepository.save(product);
-                    return new OrderItem(
+                    OrderItem item=new OrderItem(
                             order,
                             product,
                             cartItem.getTotalPrice(),
                             cartItem.getQty()
                     );
+                   orderItemRepository.save(item);
+                    return item;
                 }).collect(Collectors.toSet());
     }
 
