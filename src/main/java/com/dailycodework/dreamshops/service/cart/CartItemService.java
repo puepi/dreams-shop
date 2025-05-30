@@ -64,7 +64,6 @@ public class CartItemService implements ICartItemService{
     @Override
     public void removeItemFromCart(Long cartId, Long productId) throws ResourceNotFoundException {
         Cart cart=cartService.getCart(cartId);
-        Set<CartItem> items=cart.getCartItems();
         CartItem cartItem=getCartItem(cartId,productId);
         cart.removeItem(cartItem);
         cartRepository.save(cart);

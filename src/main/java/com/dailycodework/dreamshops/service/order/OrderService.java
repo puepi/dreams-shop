@@ -41,10 +41,9 @@ public class OrderService implements IOrderService{
         Set<OrderItem> orderItemList=createOrderItems(order,cart);
         order.setOrderItems(orderItemList);
         order.setTotalAmount(calculateTotalAmount(orderItemList));
-        Orders savedOrder=orderRepository.save(order);
-        logger.debug("savedOrder = " + savedOrder);
-        cartService.clearCart(cart.getId());
-        return savedOrder;
+//        Orders savedOrder=orderRepository.save(order);
+//        cartService.clearCart(cart.getId());
+        return order;
     }
 
     @Override
@@ -66,6 +65,7 @@ public class OrderService implements IOrderService{
         Orders order=new Orders();
         order.setUser(cart.getUser());
         order.setOrderDate(LocalDateTime.now());
+        order.setTotalAmount(BigDecimal.ZERO);
         return orderRepository.save(order);
     }
 
@@ -100,7 +100,8 @@ public class OrderService implements IOrderService{
                  .stream().map(this::convertToDto).toList();
     }
 
-    private OrderDto convertToDto(Orders order){
+    @Override
+    public OrderDto convertToDto(Orders order){
         return modelMapper.map(order,OrderDto.class);
     }
 
